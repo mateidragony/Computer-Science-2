@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/QR Code Reader/pom.xml" />
+        <option value="$PROJECT_DIR$/Turtle Recursion/pom.xml" />
+        <option value="$PROJECT_DIR$/Mandelbrot/pom.xml" />
+        <option value="$PROJECT_DIR$/Mudlark Airlines/pom.xml" />
+        <option value="$PROJECT_DIR$/Nand2Tetris/pom.xml" />
+        <option value="$PROJECT_DIR$/Miscellaneous Programs/pom.xml" />
+        <option value="$PROJECT_DIR$/ArcadeEngine/pom.xml" />
+        <option value="$PROJECT_DIR$/BotWorld22/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/Mandelbrot/Mudlark Airlines/pom.xml" />
+        <option value="$PROJECT_DIR$/QR Code Reader/Trutle Recursion/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" default="true" project-jdk-name="16" project-jdk-type="JavaSDK" />
+</project>

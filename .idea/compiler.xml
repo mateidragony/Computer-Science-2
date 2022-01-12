@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Mudlark Airlines" />
+        <module name="ArcadeEngine" />
+        <module name="Miscellaneous Programs" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="BotWorld22" target="16" />
+      <module name="CS2" target="16" />
+      <module name="Trutle Recursion" target="16" />
+      <module name="Turtle Recursion" target="16" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

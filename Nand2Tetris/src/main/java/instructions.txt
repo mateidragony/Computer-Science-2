@@ -1,0 +1,15 @@
+//tssf
+//asm
+
+
+(START)
+@i
+D=D+M //NOISE
+@2
+M=A
+
+@i
+M=M+1
+(LOOP)
+
+0;JMP
