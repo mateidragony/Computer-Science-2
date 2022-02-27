@@ -14,7 +14,7 @@ public class ScissorsTracker extends BotBrain
     public int chooseAction()
     {
         Location scissorsLoc = whereAreTheScissors();
-        if(scissorsLoc == null) return REST;
+        if(scissorsLoc == null) return REST; //No scissors, just rest.
         
         Location myLoc = new Location(getRow(), getCol());
         //Grab the scissors if they are close enough. (in a neighboring space)

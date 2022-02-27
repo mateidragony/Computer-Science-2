@@ -23,6 +23,7 @@ public class Rock extends GameObject implements BlockedLocation
     }
     public Rock(Rock b)
     {
+        super(b);
         amountRemaining = b.getAmountRemaining();
     }
     
@@ -33,15 +34,11 @@ public class Rock extends GameObject implements BlockedLocation
     
     public void mineRock()
     {
-        if(amountRemaining > 25) //You get double for big Rocks
-        {
-            amountRemaining--;
-        }
         if(amountRemaining > 0)
         {
             amountRemaining--;
         }
-        if(amountRemaining == 0)
+        if(amountRemaining <= 0)
             this.removeSelfFromGrid();
     }
     

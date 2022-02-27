@@ -1,4 +1,3 @@
- 
 package world; 
 
 import actor.Bot;
@@ -189,7 +188,7 @@ public class BotWorld extends ActorWorld
         {
             r.initialize();
 //            System.out.println("INIT in BotWorld");
-            r.putSelfInGrid(getGrid(), getRandomEmptyEdgeLocation());
+            r.putSelfInGrid(getGrid(), this.getRandomEmptyCenterLocation());
             r.setDirection(getRandomDirection());
         }
         
@@ -202,6 +201,7 @@ public class BotWorld extends ActorWorld
     public void clearAllObjectsFromGrid()
     {
         RatBotsGrid<GameObject> gr = (RatBotsGrid<GameObject>)this.getGrid();
+        gr.clearTicTacToeBoard();
         for(int x=0; x<gr.getNumCols(); x++)
         {
             for(int y=0; y<gr.getNumRows(); y++)
@@ -338,10 +338,11 @@ public class BotWorld extends ActorWorld
             setMessage(((RatBotsGrid)gr).getMessage());
         
         //*** UPDATE THE SCORES ***
-        updateTicTacToe();
+        if(RatBotsArena.getPlayMode() > RatBotsArena.CHALLENGE_3)
+            updateTicTacToe();
         
         if(!foundScissors)
-            arena.addRandomScissors(this);
+            arena.addRandomScissors(this, randy.nextInt(4));
         if(!foundPaper)
             arena.addRandomPapers(1, this);
         //--------ADD A POWERUP--------------------------------------
@@ -486,9 +487,9 @@ public class BotWorld extends ActorWorld
         int centerCol = cols/2;
         // get all valid empty locations and pick one at random
         ArrayList<Location> emptyLocs = new ArrayList<Location>();
-        for(int row=centerRow-1; row<centerRow+2; row++)
+        for(int row=centerRow-1; row<centerRow+1; row++)
         {
-            for(int col=centerCol-1; col<centerCol+2; col++)
+            for(int col=centerCol-1; col<centerCol+1; col++)
             {
                 Location loc = new Location(row,col);
                 if(grid.get(loc)==null)
@@ -500,9 +501,9 @@ public class BotWorld extends ActorWorld
         
         if (emptyLocs.isEmpty()) //Go wider (24 places!)
         {
-            for(int row=centerRow-2; row<centerRow+3; row++)
+            for(int row=centerRow-2; row<centerRow+2; row++)
             {
-                for(int col=centerCol-2; col<centerCol+3; col++)
+                for(int col=centerCol-2; col<centerCol+2; col++)
                 {
                     Location loc = new Location(row,col);
                     if(grid.get(loc)==null)
@@ -514,9 +515,9 @@ public class BotWorld extends ActorWorld
         }
         if (emptyLocs.isEmpty()) //Go wider (48 places!)
         {
-            for(int row=centerRow-3; row<centerRow+4; row++)
+            for(int row=centerRow-3; row<centerRow+3; row++)
             {
-                for(int col=centerCol-3; col<centerCol+4; col++)
+                for(int col=centerCol-3; col<centerCol+3; col++)
                 {
                     Location loc = new Location(row,col);
                     if(grid.get(loc)==null)

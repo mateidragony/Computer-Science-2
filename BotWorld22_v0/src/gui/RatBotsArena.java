@@ -61,7 +61,10 @@ public class RatBotsArena
                 addRandomRock(world, 0);
             for(int z=0; z<6; z++)
                 addRandomRock(world, 80);
-            addRandomScissors(world);
+            addRandomScissors(world,0);
+            addRandomScissors(world,1);
+            addRandomScissors(world,2);
+            addRandomScissors(world,3);
             addRandomPapers(1, world);
         }
         else if(playMode == CHALLENGE_1)
@@ -73,16 +76,14 @@ public class RatBotsArena
         else if(playMode == CHALLENGE_2)
         {   //Get a Scissors
             RatBotsGrid grid = (RatBotsGrid)world.getGrid();
-            Location edge = getRandomEmptySideZoneEdgeLocation(grid);
-            new Scissors().putSelfInGrid(grid, edge);
+            addRandomScissors(world, randy.nextInt(4));
         }
         else if(playMode == CHALLENGE_3)
         {   //Complete a set.
             RatBotsGrid grid = (RatBotsGrid)world.getGrid();
             Location corner = getRandomEmptyCornerZoneLocation(grid);
             new Rock(2).putSelfInGrid(grid, corner);
-            Location edge = getRandomEmptySideZoneEdgeLocation(grid);
-            new Scissors().putSelfInGrid(grid, edge);
+            addRandomScissors(world, randy.nextInt(4));
             Location center = getRandomEmptyCenterZoneLocation(grid); 
             new Paper(1,400).putSelfInGrid(grid, center);
         }
@@ -126,10 +127,11 @@ public class RatBotsArena
         new Rock(amt).putSelfInGrid(grid, loc);
     }
     
-    public void addRandomScissors(World world)
+    public void addRandomScissors(World world, int whichWall)
     {
         RatBotsGrid grid = (RatBotsGrid)world.getGrid();
-        Location loc = getRandomEmptySideZoneEdgeLocation(grid);
+        Location loc = getRandomEmptySideZoneEdgeLocation(grid, whichWall);
+        if(loc == null) return; //No location available! 
         Scissors bob = new Scissors();
         bob.setDirection(loc.getDirectionToward(new Location(SIZE/2, SIZE/2)));
         bob.putSelfInGrid(grid, loc);
@@ -141,8 +143,10 @@ public class RatBotsArena
         for(int q=0; q<num; q++)
         {
             Location center = getRandomEmptyCenterZoneLocation(grid); 
-            int amt = randy.nextInt(3)+2;
-            new Paper(amt,25).putSelfInGrid(grid, center);            
+            int amt = (randy.nextInt(4)+1)*(randy.nextInt(4)+1)+(randy.nextInt(4)); 
+            int duration = randy.nextInt(20)+6;
+            if(randy.nextInt(100) == 77) { amt+=50; duration+=10; }
+            new Paper(amt,duration).putSelfInGrid(grid, center);            
         }
     }
     
@@ -169,15 +173,16 @@ public class RatBotsArena
         return loc;
     }
     
-    private Location getRandomEmptySideZoneEdgeLocation(RatBotsGrid grid)
+    private Location getRandomEmptySideZoneEdgeLocation(RatBotsGrid grid, int whichWall)
     {
         int place = randy.nextInt(8)+8;
-        int whichWall = randy.nextInt(4);
+        int endLoopCount = 0;
         Location loc = new Location(-1,-1);
         do
         {
+            endLoopCount++;
             place = randy.nextInt(8)+8;
-            whichWall = randy.nextInt(4);
+//            whichWall = randy.nextInt(4);
             if(whichWall == 0)
                 loc = new Location(place,0);
             else if (whichWall == 1)
@@ -186,20 +191,24 @@ public class RatBotsArena
                 loc = new Location(0,place);
              else 
                 loc = new Location(SIZE-1,place);
-        } while (grid.get(loc) != null);
+        } while (grid.get(loc) != null && endLoopCount<14);
+        if(endLoopCount >= 14)
+            return null;
+
         return loc;
     }
     
     private Location getRandomEmptyCornerZoneLocation(RatBotsGrid grid)
     {
         int r=0, c=0;
+        int endLoopCount = 0;
         Location loc;
         do
         {
             r=randy.nextInt(SIZE);
             c=randy.nextInt(SIZE);
             loc = new Location(r,c);
-        } while (grid.get(loc) != null || (5 < r && r < SIZE-6) || (5 < c && c < SIZE-6));
+        } while ((grid.get(loc) != null || (5 < r && r < SIZE-6) || (5 < c && c < SIZE-6)) && endLoopCount < 42 );
         return loc;
     }
     

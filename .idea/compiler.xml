@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Mudlark Airlines" />
         <module name="ArcadeEngine" />
+        <module name="NeuralNet" />
         <module name="Miscellaneous Programs" />
       </profile>
     </annotationProcessing>

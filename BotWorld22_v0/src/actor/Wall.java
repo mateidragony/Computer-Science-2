@@ -20,7 +20,7 @@ public class Wall extends GameObject implements BlockedLocation
     }
     public Wall(Wall b)
     {
-//        setLocation(b.getLocation());
+        super(b);
         setColor(Color.BLACK);
     }
     

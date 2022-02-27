@@ -1,4 +1,4 @@
-package world; 
+package world;  
 
 /* 
  * AP(r) Computer Science GridWorld Case Study:

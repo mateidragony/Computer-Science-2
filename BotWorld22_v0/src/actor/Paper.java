@@ -32,9 +32,11 @@ public class Paper extends GameObject implements BlockedLocation
     }
     public Paper(Paper b)
     {
-//        setLocation(b.getLocation());
+        super(b);
         numPages = b.getNumPages();
         turnsUntilAuctionEnds = b.getTurnsUntilAuctionEnds();
+        if(b.turnsUntilAuctionEnds >= 3) //Only tell the top bid early in the bidding.
+            currentTopBid = b.getCurrentTopBid();
         setColor(DEFAULT_COLOR);
     }    
 

@@ -20,7 +20,8 @@ public class Bot extends GameObject implements BlockedLocation
     public static final int POINTS_PER_SCISSORS = 20;
     public static final int POINTS_PER_RPS_SET = 100;
     public static final int POINTS_PER_TIC_TAC_TOE_EACH_TURN = 1;
-    public static final int POINTS_FOR_RPS_WIN = 5000;
+    public static final int POINTS_FOR_RPS_WIN = 100;
+    public static final int INCREMENT_FOR_RPS_WIN = 10;
     public static final int PENALTY_FOR_BANKRUPTING = 10000;
     
     /**
@@ -35,6 +36,7 @@ public class Bot extends GameObject implements BlockedLocation
     private int matchesTied;
     private int matchesLost;
     private int totalScore = 0;
+    private int battleWinValue = POINTS_FOR_RPS_WIN;
     
     private int mostRecentChoice = 0;
     
@@ -221,6 +223,11 @@ public class Bot extends GameObject implements BlockedLocation
                 Rock r = (Rock)go;
                 r.mineRock();
                 numRocks++;
+                if(r.getAmountRemaining()>=25)
+                {
+                    r.mineRock();
+                    numRocks++;
+                }
             }
         }
     }
@@ -243,7 +250,7 @@ public class Bot extends GameObject implements BlockedLocation
     }
     private boolean isInCenterSquare()
     {
-        if(7 < this.getRow() && this.getRow() < 15 && 7 < this.getCol() && this.getCol() < 15)
+        if(7 < this.getRow() && this.getRow() < 16 && 7 < this.getCol() && this.getCol() < 16)
             return true;
         return false;
     }
@@ -335,6 +342,10 @@ public class Bot extends GameObject implements BlockedLocation
         int myChoice = this.chooseRPS();
         int oppChoice = otherBot.chooseRPS();
         
+        //Validate responses
+        myChoice = Math.max(0,Math.min(3,myChoice));
+        oppChoice = Math.max(0,Math.min(3,oppChoice));
+        
         //If it is a tie, it just ends. (Nothing happens)
         if(myChoice == oppChoice) 
         {
@@ -354,7 +365,10 @@ public class Bot extends GameObject implements BlockedLocation
         
         System.out.println("RPS Battle "+this.botBrain.getName()+" win = "+didIWin);
         if(didIWin)
-            this.addToScore(POINTS_FOR_RPS_WIN);
+        {
+            this.addToScore(battleWinValue);
+            battleWinValue += INCREMENT_FOR_RPS_WIN;
+        }
         else
             otherBot.addToScore(POINTS_FOR_RPS_WIN);
             
@@ -378,10 +392,10 @@ public class Bot extends GameObject implements BlockedLocation
 
     private void buildWall(Location loc)
     {
-        if(numRocks > BUILD_COST)
+        if(numRocks >= BUILD_COST)
         {
             //Build a wall at loc
-            if(getGrid().isValid(loc) && !(getGrid().get(loc) instanceof Bot))
+            if(getGrid().isValid(loc) && !(getGrid().get(loc) instanceof BlockedLocation))
             {
                 new Wall(getColor()).putSelfInGrid(getGrid(), loc);
                 numRocks -= BUILD_COST;
@@ -406,7 +420,7 @@ public class Bot extends GameObject implements BlockedLocation
     private final void giveDataToBotBrain()
     {
         //score, energy, col, row, myStuff ================
-        botBrain.setScore(score);
+        botBrain.setScore(getScore());
         botBrain.setLocation(getLocation().getCol(), getLocation().getRow());
         //====specific for 2021=====
         botBrain.setNumRocks(numRocks);
@@ -430,6 +444,7 @@ public class Bot extends GameObject implements BlockedLocation
                 GameObject a = getGrid().get(new Location(row, col));
                 if(a != null && !(a instanceof Trail))
                     theArena[row][col] = a.getClone();
+                
                 //Might need to do each with instanceof here...
                 
             }
@@ -535,6 +550,7 @@ public class Bot extends GameObject implements BlockedLocation
         numRocks = 0;
         numScissors = 0;
         numPapers = 0;
+        battleWinValue = POINTS_FOR_RPS_WIN;
         botBrain.initForRound();
     }
     

@@ -38,7 +38,7 @@ public class Scissors extends GameObject implements BlockedLocation
     {
         ArrayList<Location> locs = new ArrayList<Location>();
         Location forward = getLocation().getAdjacentLocation(getDirection());
-        if(getGrid().isValid(forward) && getGrid().get(forward) == null)
+        if(getGrid().isValid(forward) && (getGrid().get(forward) == null  || getGrid().get(forward) instanceof Trail))
         {   //If you can move forward, do so. 
             locs.add(forward);
             return locs;
@@ -47,7 +47,7 @@ public class Scissors extends GameObject implements BlockedLocation
         for(int d=0; d<360; d+=45)
         {
             Location neighbor = getLocation().getAdjacentLocation(d);
-            if(getGrid().isValid(neighbor) && getGrid().get(neighbor) == null)
+            if(getGrid().isValid(neighbor) && (getGrid().get(neighbor) == null || getGrid().get(neighbor) instanceof Trail))
                 locs.add(neighbor);
         }
         return locs;

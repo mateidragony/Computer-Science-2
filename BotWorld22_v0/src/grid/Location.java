@@ -251,8 +251,8 @@ public class Location implements Comparable
     }
     /**
      * (Added for RatBots) Calculates the distance to another location.  
-     * The distance is reported as the sum of the x and y distances 
-     * and therefore doesn't consider diagonal movement.  
+     * The distance is reported as the max of the x and y distances 
+     * and therefore considers diagonal movement.  
      * @param other the location that the distance is calculated to
      * @return the distance
      */
@@ -260,7 +260,7 @@ public class Location implements Comparable
     {
         int dx = Math.abs(row - other.getRow());
         int dy = Math.abs(col - other.getCol());
-        return dx+dy;
+        return Math.max(dx, dy);
     }
 
     public boolean isValidLocation()

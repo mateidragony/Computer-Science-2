@@ -51,6 +51,7 @@ public class RatBotsGrid<E> extends AbstractGrid<E>
     }
     
     public Bot[][] getTicTacToeBoard() { return ticTacToeBoard; }
+    public void clearTicTacToeBoard() { ticTacToeBoard = new Bot[3][3]; }
     
     public ArrayList<E> getNeighborsSquare(Location loc)
     {
