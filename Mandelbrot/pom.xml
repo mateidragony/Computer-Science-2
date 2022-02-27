@@ -17,9 +17,6 @@
       
     </plugins>  
   </build>
-    <modules>
-        <module>Mudlark Airlines</module>
-    </modules>
 
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
   <dependencies>

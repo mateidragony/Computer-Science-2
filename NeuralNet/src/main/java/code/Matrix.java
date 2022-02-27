@@ -4,7 +4,7 @@ package code;
 import java.util.ArrayList;
 import java.util.List;
 
-class Matrix {
+public class Matrix {
 	double [][]data;
 	int rows,cols;
 	
@@ -20,6 +20,13 @@ class Matrix {
 			}
 		}
 	}
+	public Matrix(double[][] data){
+		this.data = data;
+		rows = data.length;
+		cols = data[0].length;
+	}
+
+
 	
 	public void print()
 	{

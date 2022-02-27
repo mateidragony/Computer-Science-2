@@ -11,7 +11,7 @@ public class Driver {
 	
     public static void main(String[] args) {
 
-        int dataSet = 4;
+        int dataSet = 3;
 
         Driver wallE = new Driver();
         //wallE.generateAddCombos(20);
@@ -22,8 +22,8 @@ public class Driver {
     public double [][] inputArray;
     public double [][] expectedOutputArray;
     int[] nodesPerLevel = {1,2,3}; //This is changed below...
-    int numTrainingCycles = 1000000;
-    double learnRate = 0.0011;  //0.011
+    int numTrainingCycles = 50000;
+    double learnRate = 0.011;  //0.011
     
     public void trainNetwork(int dataSet)
     {
@@ -35,6 +35,8 @@ public class Driver {
             displayResults(nn);
         else
             displayNmistResults(nn);
+
+        nn.printBowels();
     }
     
     public void displayResults(NeuralNetworkMultiLevel nn)

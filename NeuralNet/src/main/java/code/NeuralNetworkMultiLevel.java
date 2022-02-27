@@ -9,7 +9,10 @@ public class NeuralNetworkMultiLevel {
     List<Matrix> weights, bias;	
     double l_rate=0.01;
 
+    double m_rate=0.1;
+
     public NeuralNetworkMultiLevel(int[] nodesPerLevel, double learnRate) {
+
         weights = new ArrayList<>();
         bias = new ArrayList<>();
         for(int z=1; z<nodesPerLevel.length; z++)
@@ -19,6 +22,8 @@ public class NeuralNetworkMultiLevel {
         }
         l_rate = learnRate;
     }
+
+
     public NeuralNetworkMultiLevel(List<Matrix> weights, List<Matrix> bias){
         this.weights = weights;
         this.bias = bias;
@@ -127,14 +132,65 @@ public class NeuralNetworkMultiLevel {
         System.out.println(numCorrect+" out of "+inputArray.length);
     }
 
+
+    public void printBowels(){
+
+        for(int i=0; i<weights.size();i++){
+            System.out.println("Weights: "+i);
+            weights.get(i).print();
+        }
+
+        for(int i=0; i<bias.size();i++){
+            System.out.println("Bias: "+i);
+            bias.get(i).print();
+        }
+
+    }
+
+
+
+
+
     public NeuralNetworkMultiLevel[] mutateOffspring(int num){
 
         NeuralNetworkMultiLevel[] offspring = new NeuralNetworkMultiLevel[num];
 
-        for(int i=0; i<offspring.length; i++){
-            offspring[i] = new
+        for(int index=0; index<offspring.length; index++){
+            List<Matrix> mutatedWeights = new ArrayList<>();
+            List<Matrix> mutatedBias= new ArrayList<>();
+
+            for(Matrix weight: weights){
+
+                double[][] data = new double[weight.rows][weight.cols];
+
+                for(int r=0; r<weight.rows; r++){
+                    for(int c=0; c<weight.cols; c++){
+                        data[r][c] = weight.data[r][c] * ((Math.random()*m_rate)-(m_rate/2.0));
+                    }
+                }
+
+                mutatedWeights.add(new Matrix(data));
+            }
+
+
+            for(Matrix b: bias){
+
+                double[][] data = new double[b.rows][b.cols];
+
+                for(int r=0; r<b.rows; r++){
+                    for(int c=0; c<b.cols; c++){
+                        data[r][c] = b.data[r][c] * ((Math.random()*m_rate)-(m_rate/2.0));
+                    }
+                }
+
+                mutatedBias.add(new Matrix(data));
+            }
+
+            offspring[index] = new NeuralNetworkMultiLevel(mutatedWeights,mutatedBias);
+
         }
 
+        return offspring;
 
     }
 
