@@ -6,12 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Miscellaneous Programs (1)" />
+        <module name="EvilHangman" />
         <module name="Mudlark Airlines" />
-        <module name="ArcadeEngine" />
         <module name="NeuralNet" />
-        <module name="Miscellaneous Programs (2)" />
         <module name="Miscellaneous Programs" />
+        <module name="Miscellaneous Programs (1)" />
+        <module name="ArcadeEngine" />
+        <module name="Miscellaneous Programs (2)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

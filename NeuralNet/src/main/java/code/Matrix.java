@@ -26,6 +26,19 @@ public class Matrix {
 		cols = data[0].length;
 	}
 
+	public Matrix(List<List<Double>> data){
+
+		this.data= new double[data.size()][data.get(0).size()];
+
+		for(int r=0; r<data.size(); r++){
+			for(int c=0; c<data.get(0).size();c++){
+				this.data[r][c] = data.get(r).get(c);
+			}
+		}
+		rows = data.size();
+		cols = data.get(0).size();
+	}
+
 
 	
 	public void print()

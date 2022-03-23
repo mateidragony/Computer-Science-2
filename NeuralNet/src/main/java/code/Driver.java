@@ -24,10 +24,11 @@ public class Driver {
     int[] nodesPerLevel = {1,2,3}; //This is changed below...
     int numTrainingCycles = 50000;
     double learnRate = 0.011;  //0.011
+    double mutationRate = 0;
     
     public void trainNetwork(int dataSet)
     {
-        NeuralNetworkMultiLevel nn = new NeuralNetworkMultiLevel(nodesPerLevel,learnRate);
+        NeuralNetworkMultiLevel nn = new NeuralNetworkMultiLevel(nodesPerLevel,learnRate,mutationRate);
 
         nn.fit(inputArray, expectedOutputArray, numTrainingCycles);
 

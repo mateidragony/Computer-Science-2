@@ -9,9 +9,9 @@ public class NeuralNetworkMultiLevel {
     List<Matrix> weights, bias;	
     double l_rate=0.01;
 
-    double m_rate=0.1;
+    double m_rate=1;
 
-    public NeuralNetworkMultiLevel(int[] nodesPerLevel, double learnRate) {
+    public NeuralNetworkMultiLevel(int[] nodesPerLevel, double learnRate, double mutationRate) {
 
         weights = new ArrayList<>();
         bias = new ArrayList<>();
@@ -21,6 +21,7 @@ public class NeuralNetworkMultiLevel {
             bias.add(new Matrix(nodesPerLevel[z],1));
         }
         l_rate = learnRate;
+        m_rate = mutationRate;
     }
 
 
@@ -30,7 +31,7 @@ public class NeuralNetworkMultiLevel {
     }
 
 
-
+    public void setMutation(double c){m_rate = c;}
 
 
     public Matrix predict(double[] X)
@@ -155,7 +156,7 @@ public class NeuralNetworkMultiLevel {
 
         NeuralNetworkMultiLevel[] offspring = new NeuralNetworkMultiLevel[num];
 
-        for(int index=0; index<offspring.length; index++){
+        for(int index=0; index<offspring.length-1; index++){
             List<Matrix> mutatedWeights = new ArrayList<>();
             List<Matrix> mutatedBias= new ArrayList<>();
 
@@ -165,7 +166,7 @@ public class NeuralNetworkMultiLevel {
 
                 for(int r=0; r<weight.rows; r++){
                     for(int c=0; c<weight.cols; c++){
-                        data[r][c] = weight.data[r][c] * ((Math.random()*m_rate)-(m_rate/2.0));
+                        data[r][c] = weight.data[r][c] + ((Math.random()*m_rate)-(m_rate/2.0));
                     }
                 }
 
@@ -179,7 +180,7 @@ public class NeuralNetworkMultiLevel {
 
                 for(int r=0; r<b.rows; r++){
                     for(int c=0; c<b.cols; c++){
-                        data[r][c] = b.data[r][c] * ((Math.random()*m_rate)-(m_rate/2.0));
+                        data[r][c] = b.data[r][c] + ((Math.random()*m_rate)-(m_rate/2.0));
                     }
                 }
 
@@ -189,6 +190,8 @@ public class NeuralNetworkMultiLevel {
             offspring[index] = new NeuralNetworkMultiLevel(mutatedWeights,mutatedBias);
 
         }
+
+        offspring[num-1]=this;
 
         return offspring;
 

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
 
 public class ShooterGame extends JPanel implements KeyListener {
 
@@ -11,19 +12,26 @@ public class ShooterGame extends JPanel implements KeyListener {
     public static final int width = 600, height = 400;
 
     private final int playerSize = 30;
-    private int playerX,playerY;
+    public int playerX=400,playerY;
+    public int enemyX=200, enemyY=50;
 
     private Projectile p = null;
 
-    private int score = 0;
+    public int score = 0;
 
+    private NeuralNetworkMultiLevel nn;
 
-    private boolean left,right,shoot;
+    public boolean left,right,shoot;
 
 
     public ShooterGame(){
 
         this.addKeyListener(this);
+        try{
+            nn = GeneticAlgorithm.loadNN("gameNNTest05");
+        }catch(FileNotFoundException ex){
+            ex.printStackTrace();
+        }
 
     }
 
@@ -36,16 +44,32 @@ public class ShooterGame extends JPanel implements KeyListener {
         g.setColor(Color.black);
         g.fillRect(0,0,width,height);
 
+        animate();
+
+        if(p!=null)
+            p.draw(g);
+
         g.setColor(Color.white);
         g.drawString("Score: "+score, 20,20);
+        g.drawString("MyX: "+playerX, 20,50);
 
+        g.setColor(Color.green);
+        g.fillRect(enemyX,enemyY,20,20);
+
+
+        g.setColor(Color.red);
+        g.fillRect(playerX,playerY,playerSize,playerSize);
+
+    }
+
+
+    public void animate(){
         if(p!=null){
             p.animate();
-            p.draw(g);
 
             if(p.getHitBox().intersects(new Rectangle(200,50,20,20))) {
                 p = null;
-                score+=1000;
+                score+=500000;
             }
 
             if(p!=null) {
@@ -57,8 +81,10 @@ public class ShooterGame extends JPanel implements KeyListener {
 
 
 
-        if(shoot && p==null)
+        if(shoot && p==null){
             p = new Projectile(playerX+playerSize/2-2, playerY);
+            score += 50000;
+        }
         if(left)
             playerX-=5;
         if(right)
@@ -70,15 +96,16 @@ public class ShooterGame extends JPanel implements KeyListener {
         if(playerX+playerSize>width)
             playerX=width-playerSize;
 
+        score+=300-2*Math.abs(playerX-enemyX);
 
 
 
-        g.setColor(Color.green);
-        g.fillRect(200,50,20,20);
+        Matrix m = nn.predict(new double[]{playerX,playerY,enemyX,enemyY});
+        java.util.List<Double> out = m.toArray();
 
-
-        g.setColor(Color.red);
-        g.fillRect(playerX,playerY,playerSize,playerSize);
+        right = out.get(0)>0.5;
+        left = out.get(1)>0.5;
+        shoot = out.get(2)>0.5;
 
     }
 
